@@ -27,6 +27,12 @@ import androidx.compose.ui.unit.dp
 import com.example.first_code_lab.ui.theme.First_code_labTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -60,7 +66,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         )
     )
     Surface(
-        color = MaterialTheme.colorScheme.primary,
+        color = if(expanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
+        shape = if(expanded) MaterialTheme.shapes.large else MaterialTheme.shapes.medium,
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
     ) {
         Row(
@@ -74,17 +81,22 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
                     .padding(bottom = extraPadding.coerceAtLeast(0.dp))
             ) {
                 Text(text = "Hello")
-                Text(text = name, style = MaterialTheme.typography.headlineMedium.copy(
-                    fontWeight = FontWeight.ExtraBold))
+                Text(
+                    text = name, style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                )
             }
-            ElevatedButton(
-                onClick = { expanded = !expanded },
-            ) {
-                Text(if (expanded) "Show less" else "Show more")
+            IconButton(onClick = { expanded = !expanded  }) {
+                if (expanded) Icon(
+                    Icons.Filled.Favorite,
+                    contentDescription = "ExpandLess"
+                ) else Icon(Icons.Filled.Face, contentDescription = "ExpandMore")
             }
         }
     }
 }
+
 
 @Composable
 fun MyApp(modifier: Modifier = Modifier) {
@@ -129,7 +141,12 @@ fun OnboardingScreen(modifier: Modifier = Modifier, onTap: () -> Unit) {
     }
 }
 
-@Preview(showBackground = true, widthDp = 320)
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = UI_MODE_NIGHT_YES,
+    name = "GreetingPreviewDark"
+)
 @Composable
 fun GreetingsPreview() {
     First_code_labTheme {
@@ -137,7 +154,12 @@ fun GreetingsPreview() {
     }
 }
 
-@Preview
+@Preview(
+    showBackground = true,
+    widthDp = 320,
+    uiMode = UI_MODE_NIGHT_YES,
+    name = "MyAppPreviewDark"
+)
 @Composable
 fun MyAppPreview() {
     First_code_labTheme {
